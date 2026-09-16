@@ -1,0 +1,44 @@
+{
+  "input_file": "data/processed/water_plant_cleaned_hourly.csv",
+  "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
+  "target": "river_ec_us_cm",
+  "forecast_horizons_hours": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "time_split": {
+    "train_end_timestamp": "2025-03-04T23:00:00+07:00",
+    "validation_end_timestamp": "2025-03-18T11:00:00+07:00",
+    "test_start_timestamp": "2025-03-18T12:00:00+07:00",
+    "fractions": {
+      "train": 0.7,
+      "validation": 0.15,
+      "test": 0.15000000000000005
+    }
+  },
+  "feature_policy": "All lag, rolling and operational features are measured at or before the forecast origin; target-time calendar features are known in advance.",
+  "models_compared": [
+    "persistence",
+    "moving_average_6",
+    "random_forest"
+  ],
+  "selected_model_by_validation_rmse": {
+    "+1h": "moving_average_6",
+    "+2h": "moving_average_6",
+    "+3h": "moving_average_6",
+    "+4h": "moving_average_6",
+    "+5h": "moving_average_6",
+    "+6h": "moving_average_6"
+  },
+  "test_metric_rows": 18,
+  "limitations": [
+    "Synthetic-data results do not establish production model performance.",
+    "EC is forecast directly; no salinity conversion or salinity forecast is made.",
+    "Current River Level and Qnt are used only at forecast origin; future values are not leaked into features.",
+    "Forecast intervals are not yet calibrated."
+  ]
+}

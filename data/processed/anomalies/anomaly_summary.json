@@ -1,0 +1,28 @@
+{
+  "input_file": "data/processed/water_plant_cleaned_hourly.csv",
+  "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
+  "records_analyzed": 2160,
+  "candidate_count": 71,
+  "by_method": {
+    "isolation_forest": 44,
+    "rolling_robust_zscore": 20,
+    "rule_frozen_value": 4,
+    "rule_missing_run": 3
+  },
+  "by_type": {
+    "missing_data": 3,
+    "process_or_environmental_anomaly_candidate": 5,
+    "sensor_anomaly_candidate": 9,
+    "statistical_outlier": 54
+  },
+  "by_severity": {
+    "critical": 1,
+    "warning": 70
+  },
+  "interpretation_limits": [
+    "Candidates require operator review; they are not root-cause determinations.",
+    "EC anomaly is not evidence of salinity intrusion.",
+    "Isolation Forest identifies unusual multivariate patterns, not causes.",
+    "No operational alert thresholds are defined in this phase."
+  ]
+}

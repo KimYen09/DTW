@@ -1,0 +1,24 @@
+{
+  "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
+  "alert_count": 71,
+  "alerts_by_type": {
+    "anomaly_review": 54,
+    "data_quality": 3,
+    "process_review": 5,
+    "sensor_review": 9
+  },
+  "alerts_by_severity": {
+    "critical": 1,
+    "warning": 70
+  },
+  "current_risk_level": "WARNING",
+  "current_window_hours": 6,
+  "forecast_rows_reviewed": 6,
+  "forecast_thresholds_enabled": false,
+  "limitations": [
+    "Alerts are decision support only; no PLC/SCADA/actuator command is generated.",
+    "Forecast-based alerts require factory-approved configuration thresholds.",
+    "EC is not salinity; EC anomalies/forecasts do not establish salinity intrusion.",
+    "Acknowledgement fields are placeholders until a user-authenticated dashboard workflow exists."
+  ]
+}

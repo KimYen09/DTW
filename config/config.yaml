@@ -1,0 +1,51 @@
+# Không đặt mật khẩu, API key hoặc ngưỡng vận hành chưa được nhà máy phê duyệt ở đây.
+project:
+  name: "Water Quality Analytics, Anomaly Detection and Forecasting System"
+  timezone: "Asia/Ho_Chi_Minh"
+  data_frequency: "1h"
+  deployment_mode: "demo_sqlite"
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  sample_data: "data/sample"
+  sqlite_database: "data/processed/water_analytics.db"
+  model_directory: "models"
+
+data_contract:
+  timestamp_format: "ISO-8601 with explicit +07:00 offset"
+  required_timezone: "Asia/Ho_Chi_Minh"
+  duplicate_policy: "retain_raw_and_log; resolve_only_with_documented_rule"
+  missing_value_policy: "do_not_forward_fill_unconditionally"
+
+data_quality:
+  frozen_min_consecutive_hours: 6
+  sudden_jump_mad_multiplier: 8.0
+  invalid_value_policy: "set_to_missing_in_cleaned_output_and_log"
+  spike_policy: "flag_only_for_anomaly_review"
+  pump_jump_policy: "defer_to_state_aware_anomaly_rule_pending_factory_confirmation"
+
+reference_ranges:
+  storage_tank:
+    ph:
+      low: 6.0
+      high: 8.5
+      source: "Requirement provided by factory project owner"
+
+# Empty until confirmed by plant operators. Alert code reads this configuration.
+# Template (keep values null until factory approval):
+# alert_thresholds:
+#   tien_river:
+#     river_ec_us_cm:
+#       warning_threshold: null
+#       critical_threshold: null
+alert_thresholds: {}
+
+factory_confirmation_required:
+  - "Meaning of TS and C/S in pump records"
+  - "Physical meaning and unit of Filter_1/2_Level_1..4"
+  - "Qnt measurement point and whether it can be allocated per pump"
+  - "Pump temperature measurement point"
+  - "Process travel time between locations"
+  - "All operational warning and critical thresholds"
+  - "Missing-signal codes and maintenance states"

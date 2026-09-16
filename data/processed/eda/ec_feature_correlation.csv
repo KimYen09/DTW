@@ -1,0 +1,7 @@
+target,feature,pairwise_observations,pearson_correlation,interpretation_limit
+river_ec_us_cm,river_level_m,2148,-0.1243,Descriptive association only; not causal and not a salinity conversion.
+river_ec_us_cm,raw_water_level_m,2148,-0.117,Descriptive association only; not causal and not a salinity conversion.
+river_ec_us_cm,qnt_m3_h,2148,0.0106,Descriptive association only; not causal and not a salinity conversion.
+river_ec_us_cm,raw_water_turbidity_ntu,2138,-0.0226,Descriptive association only; not causal and not a salinity conversion.
+river_ec_us_cm,settling_turbidity_ntu,2148,0.0083,Descriptive association only; not causal and not a salinity conversion.
+river_ec_us_cm,filter_basin_turbidity_ntu,2148,0.0232,Descriptive association only; not causal and not a salinity conversion.

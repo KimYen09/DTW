@@ -1,0 +1,6 @@
+{
+  "name": "Water Plant Analytics",
+  "description": "Hệ thống giám sát, phân tích chất lượng nước, trạm bơm và phát hiện bất thường nhà máy nước với giao diện công nghệ hiện đại.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
