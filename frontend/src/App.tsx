@@ -49,10 +49,11 @@ export default function App() {
   const fetchData = async () => {
     setIsRefreshing(true);
     try {
+      const baseUrl = import.meta.env.BASE_URL;
       const [kpisRes, pumpsRes, alertsRes] = await Promise.all([
-        fetch('http://localhost:8000/api/kpis'),
-        fetch('http://localhost:8000/api/pumps'),
-        fetch('http://localhost:8000/api/alerts')
+        fetch(`${baseUrl}data/kpis.json`),
+        fetch(`${baseUrl}data/pumps.json`),
+        fetch(`${baseUrl}data/alerts.json`)
       ]);
       if (kpisRes.ok) setKpis(await kpisRes.json());
       if (pumpsRes.ok) setPumps(await pumpsRes.json());

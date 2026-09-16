@@ -1,0 +1,12 @@
+{
+  "currentEc": 240.0,
+  "currentPh": 7.2,
+  "currentTurbidity": 1.2,
+  "currentCl2": 0.5,
+  "currentRiverLevel": 2.1,
+  "qnt": 800.0,
+  "activeAlerts": 71,
+  "currentRisk": "WARNING",
+  "sensorHealth": "Review needed",
+  "lastUpdated": "2025-03-31T23:00:00+07:00"
+}
