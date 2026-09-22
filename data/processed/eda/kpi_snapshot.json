@@ -2,38 +2,38 @@
   "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
   "latest_observations": {
     "river_ec_us_cm": {
-      "value": 243.587,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 644.4,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     },
     "river_level_m": {
-      "value": 2.17,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 4.16,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     },
     "raw_water_turbidity_ntu": {
-      "value": 26.411,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 4.49,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     },
     "storage_ph": {
-      "value": 7.242,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 7.47,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     },
     "storage_turbidity_ntu": {
-      "value": 1.273,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 4.24,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     },
     "storage_chlorine_cl2_mg_l": {
-      "value": 0.532,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": null,
+      "timestamp": null
     },
     "qnt_m3_h": {
-      "value": 801.956,
-      "timestamp": "2025-03-31T23:00:00+07:00"
+      "value": 1785.0,
+      "timestamp": "2025-01-02T23:00:00+07:00"
     }
   },
   "storage_ph_reference_check": {
     "reference_range": "6.0–8.5 (provided only for storage tank)",
-    "observations": 2160,
-    "within_reference_count": 2160,
+    "observations": 48,
+    "within_reference_count": 48,
     "note": "Descriptive reference check only; not a confirmed operational alert threshold."
   },
   "process_kpi_limit": "Removal efficiency is not calculated pending factory-confirmed travel time and sampling alignment."

@@ -11,9 +11,9 @@
     6
   ],
   "time_split": {
-    "train_end_timestamp": "2025-03-04T23:00:00+07:00",
-    "validation_end_timestamp": "2025-03-18T11:00:00+07:00",
-    "test_start_timestamp": "2025-03-18T12:00:00+07:00",
+    "train_end_timestamp": "2025-01-02T08:00:00+07:00",
+    "validation_end_timestamp": "2025-01-02T15:00:00+07:00",
+    "test_start_timestamp": "2025-01-02T16:00:00+07:00",
     "fractions": {
       "train": 0.7,
       "validation": 0.15,
@@ -27,12 +27,12 @@
     "random_forest"
   ],
   "selected_model_by_validation_rmse": {
-    "+1h": "moving_average_6",
-    "+2h": "moving_average_6",
-    "+3h": "moving_average_6",
-    "+4h": "moving_average_6",
-    "+5h": "moving_average_6",
-    "+6h": "moving_average_6"
+    "+1h": "persistence",
+    "+2h": "persistence",
+    "+3h": "persistence",
+    "+4h": "persistence",
+    "+5h": "random_forest",
+    "+6h": "random_forest"
   },
   "test_metric_rows": 18,
   "limitations": [

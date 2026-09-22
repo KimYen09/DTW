@@ -1,15 +1,12 @@
 {
   "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
-  "alert_count": 71,
+  "alert_count": 5,
   "alerts_by_type": {
-    "anomaly_review": 54,
-    "data_quality": 3,
-    "process_review": 5,
-    "sensor_review": 9
+    "anomaly_review": 1,
+    "sensor_review": 4
   },
   "alerts_by_severity": {
-    "critical": 1,
-    "warning": 70
+    "warning": 5
   },
   "current_risk_level": "WARNING",
   "current_window_hours": 6,

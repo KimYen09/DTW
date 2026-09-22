@@ -200,8 +200,8 @@ class EdaAnalyzer:
         )
         current = {
             parameter: {
-                "value": summaries[parameter].latest_value,
-                "timestamp": summaries[parameter].latest_timestamp,
+                "value": summaries[parameter].latest_value if parameter in summaries else None,
+                "timestamp": summaries[parameter].latest_timestamp if parameter in summaries else None,
             }
             for parameter in current_parameters
         }

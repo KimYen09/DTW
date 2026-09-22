@@ -3,7 +3,7 @@
 ## Current result
 
 - Data origin: **SYNTHETIC / SIMULATED — NOT FACTORY DATA**
-- Alert count: 71
+- Alert count: 5
 - Current risk level: **WARNING**
 - Forecast thresholds enabled: False
 

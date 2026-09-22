@@ -148,13 +148,14 @@ class AnomalyDetector:
                 if missing or run_start is None:
                     continue
                 end_index = index - 1
+                run_length = end_index - run_start + 1
                 candidates.append(AnomalyCandidate(
                     timestamp=rows[run_start]["timestamp"], end_timestamp=rows[end_index]["timestamp"],
                     location=_location(parameter), parameter=parameter, value=None,
                     expected_range_low=None, expected_range_high=None, anomaly_score=None,
                     detection_method="rule_missing_run", anomaly_type="missing_data",
-                    severity="warning", explanation="Missing measurement run; no imputation was applied.",
-                    evidence=f"{end_index - run_start + 1} consecutive missing hourly observation(s).",
+                    severity="warning", explanation="Thiếu dữ liệu đo lường liên tục; không áp dụng nội suy.",
+                    evidence=f"{run_length} giờ liên tiếp không ghi nhận dữ liệu; có thể do lỗi viễn trắc.",
                 ))
                 run_start = None
         return candidates
@@ -177,8 +178,8 @@ class AnomalyDetector:
                         location=_location(parameter), parameter=parameter, value=start_value,
                         expected_range_low=None, expected_range_high=None, anomaly_score=float(run_length),
                         detection_method="rule_frozen_value", anomaly_type="sensor_anomaly_candidate",
-                        severity="warning", explanation="Identical non-zero value persisted; sensor freezing is a candidate.",
-                        evidence=f"{run_length} consecutive identical hourly values; normal equipment state must be checked.",
+                        severity="warning", explanation="Giá trị khác 0 lặp lại liên tục; có thể cảm biến bị kẹt/đơ.",
+                        evidence=f"{run_length} giờ liên tiếp có giá trị giống hệt nhau; cần kiểm tra tình trạng thiết bị.",
                     ))
                 run_start = index
         return candidates
@@ -186,7 +187,7 @@ class AnomalyDetector:
     def _detect_robust_outliers(self, rows: list[dict[str, str]]) -> list[AnomalyCandidate]:
         candidates: list[AnomalyCandidate] = []
         for parameter in UNIVARIATE_PARAMETERS:
-            values = [_value(row[parameter]) for row in rows]
+            values = [_value(row.get(parameter)) for row in rows]
             for index, value in enumerate(values):
                 if value is None or index < self.rolling_window_hours:
                     continue
@@ -207,17 +208,17 @@ class AnomalyDetector:
                     expected_range_high=_round(median + self.robust_z_threshold * scale), anomaly_score=_round(robust_z),
                     detection_method="rolling_robust_zscore", anomaly_type="statistical_outlier",
                     severity="critical" if abs(robust_z) >= self.robust_z_threshold * 2 else "warning",
-                    explanation="Value deviates from rolling historical median using robust MAD scale.",
+                    explanation="Giá trị lệch khỏi mức trung vị lịch sử dựa trên thang đo MAD.",
                     evidence=f"rolling_window_hours={self.rolling_window_hours}; robust_z={robust_z:.3f}",
                 ))
         return candidates
 
     def _detect_isolation_forest(self, rows: list[dict[str, str]]) -> list[AnomalyCandidate]:
-        feature_medians = {
-            feature: statistics.median([value for row in rows if (value := _value(row[feature])) is not None])
-            for feature in IF_FEATURES
-        }
-        matrix = np.array([[(_value(row[feature]) if _value(row[feature]) is not None else feature_medians[feature]) for feature in IF_FEATURES] for row in rows])
+        feature_medians = {}
+        for feature in IF_FEATURES:
+            vals = [value for row in rows if (value := _value(row.get(feature))) is not None]
+            feature_medians[feature] = statistics.median(vals) if vals else 0.0
+        matrix = np.array([[(_value(row.get(feature)) if _value(row.get(feature)) is not None else feature_medians[feature]) for feature in IF_FEATURES] for row in rows])
         model = IsolationForest(
             contamination=self.isolation_contamination,
             random_state=self.random_state,
@@ -234,7 +235,7 @@ class AnomalyDetector:
                 parameter="multivariate_feature_set", value=None, expected_range_low=None, expected_range_high=None,
                 anomaly_score=_round(float(score)), detection_method="isolation_forest",
                 anomaly_type="statistical_outlier", severity="warning",
-                explanation="Multivariate combination is isolated from the normal data distribution.",
+                explanation="Kết hợp đa biến bị cô lập khỏi phân phối dữ liệu thông thường.",
                 evidence="features=" + ";".join(IF_FEATURES) + f"; contamination={self.isolation_contamination}",
             ))
         return candidates
@@ -243,7 +244,7 @@ class AnomalyDetector:
         by_timestamp: dict[str, list[AnomalyCandidate]] = defaultdict(list)
         for candidate in candidates:
             by_timestamp[candidate.timestamp].append(candidate)
-        row_index = {row["timestamp"]: index for index, row in enumerate(rows)}
+        row_index = {row.get("timestamp"): index for index, row in enumerate(rows)}
         persistent_turbidity_indices = [
             row_index[item.timestamp]
             for item in candidates
@@ -259,7 +260,7 @@ class AnomalyDetector:
             explanation = candidate.explanation
             if len(process_signals) >= 2:
                 anomaly_type = "process_or_environmental_anomaly_candidate"
-                explanation += " Cross-variable turbidity anomalies are concurrent; this is a process/environment candidate, not a confirmed cause."
+                explanation += " Các bất thường độ đục chéo xảy ra đồng thời; đây có thể do quy trình/môi trường."
                 severity = "critical" if len(process_signals) >= 3 else severity
             elif (
                 candidate.parameter in TURBIDITY_PROCESS_PARAMETERS
@@ -267,7 +268,7 @@ class AnomalyDetector:
                 and sum(abs(row_index[candidate.timestamp] - item_index) <= 12 for item_index in persistent_turbidity_indices) >= 3
             ):
                 anomaly_type = "process_or_environmental_anomaly_candidate"
-                explanation += " Repeated turbidity outliers persist within a 24-hour window; this is a process/environment candidate, not a confirmed cause."
+                explanation += " Bất thường độ đục lặp lại trong vòng 24 giờ; đây có thể do quy trình/môi trường."
             elif candidate.parameter == "river_ec_us_cm" and candidate.detection_method == "rolling_robust_zscore":
                 index = row_index[candidate.timestamp]
                 if 0 < index < len(rows) - 1:
@@ -275,7 +276,7 @@ class AnomalyDetector:
                     if previous is not None and current is not None and following is not None:
                         if abs(current - previous) > 0 and abs(current - following) > 0:
                             anomaly_type = "sensor_anomaly_candidate"
-                            explanation += " Isolated EC excursion lacks temporal persistence; sensor anomaly candidate."
+                            explanation += " Bất thường EC đơn lẻ không kéo dài; có thể là lỗi cảm biến."
             elif candidate.detection_method == "isolation_forest" and len(process_signals) >= 2:
                 anomaly_type = "process_or_environmental_anomaly_candidate"
             classified.append(AnomalyCandidate(

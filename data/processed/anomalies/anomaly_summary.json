@@ -1,23 +1,18 @@
 {
   "input_file": "data/processed/water_plant_cleaned_hourly.csv",
   "data_origin": "SYNTHETIC / SIMULATED — NOT FACTORY DATA",
-  "records_analyzed": 2160,
-  "candidate_count": 71,
+  "records_analyzed": 48,
+  "candidate_count": 5,
   "by_method": {
-    "isolation_forest": 44,
-    "rolling_robust_zscore": 20,
-    "rule_frozen_value": 4,
-    "rule_missing_run": 3
+    "isolation_forest": 1,
+    "rolling_robust_zscore": 4
   },
   "by_type": {
-    "missing_data": 3,
-    "process_or_environmental_anomaly_candidate": 5,
-    "sensor_anomaly_candidate": 9,
-    "statistical_outlier": 54
+    "sensor_anomaly_candidate": 4,
+    "statistical_outlier": 1
   },
   "by_severity": {
-    "critical": 1,
-    "warning": 70
+    "warning": 5
   },
   "interpretation_limits": [
     "Candidates require operator review; they are not root-cause determinations.",

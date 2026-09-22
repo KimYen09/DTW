@@ -143,6 +143,9 @@ class DataQualityPipeline:
         issues: list[QualityIssue],
     ) -> float | None:
         if raw_value.strip() == "":
+            if column.startswith("pump_"):
+                issues.append(QualityIssue(source_row_number, timestamp.isoformat(), column, "pump_off_inferred", "completeness", "info", None, "set_to_zero", "Pump measurement is blank on paper log; inferred as pump being turned off (0.0)."))
+                return 0.0
             issues.append(QualityIssue(source_row_number, timestamp.isoformat(), column, "missing_value", "completeness", "warning", None, "keep_missing_no_imputation", "Measurement is blank; no unconditional imputation is applied."))
             return None
         try:

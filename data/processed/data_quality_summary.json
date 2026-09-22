@@ -2,28 +2,17 @@
   "input_file": "data/sample/water_plant_synthetic_hourly.csv",
   "cleaned_file": "data/processed/water_plant_cleaned_hourly.csv",
   "timezone": "Asia/Ho_Chi_Minh (+07:00)",
-  "raw_records_read": 2161,
-  "cleaned_records_written": 2160,
-  "quality_issue_count": 41,
+  "raw_records_read": 48,
+  "cleaned_records_written": 48,
+  "quality_issue_count": 2,
   "issues_by_rule": {
-    "duplicate_record": 1,
-    "frozen_value_candidate": 4,
-    "missing_value": 22,
-    "out_of_order_timestamp": 2,
-    "physical_validity_check": 1,
-    "sudden_jump_candidate": 11
+    "sudden_jump_candidate": 2
   },
   "issues_by_severity": {
-    "critical": 1,
-    "warning": 40
+    "warning": 2
   },
   "issues_by_dimension": {
-    "completeness": 22,
-    "consistency": 11,
-    "sensor_health": 4,
-    "timeliness": 2,
-    "uniqueness": 1,
-    "validity": 1
+    "consistency": 2
   },
   "cleaning_principles": [
     "Raw input is never overwritten.",

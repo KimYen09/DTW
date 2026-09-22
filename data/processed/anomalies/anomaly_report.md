@@ -3,8 +3,8 @@
 ## Scope
 
 - Input: `data/processed/water_plant_cleaned_hourly.csv`
-- Records analyzed: 2160
-- Candidate records: 71
+- Records analyzed: 48
+- Candidate records: 5
 - Data origin: **SYNTHETIC / SIMULATED — NOT FACTORY DATA**
 
 ## Methods
@@ -24,6 +24,6 @@
 
 ## Counts
 
-- By method: `{'isolation_forest': 44, 'rolling_robust_zscore': 20, 'rule_frozen_value': 4, 'rule_missing_run': 3}`
-- By type: `{'missing_data': 3, 'process_or_environmental_anomaly_candidate': 5, 'sensor_anomaly_candidate': 9, 'statistical_outlier': 54}`
-- By severity: `{'critical': 1, 'warning': 70}`
+- By method: `{'isolation_forest': 1, 'rolling_robust_zscore': 4}`
+- By type: `{'sensor_anomaly_candidate': 4, 'statistical_outlier': 1}`
+- By severity: `{'warning': 5}`

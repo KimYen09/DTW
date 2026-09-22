@@ -117,10 +117,17 @@ class RiskEngine:
                 recommendation = "Xem lại xu hướng lịch sử và các biến liên quan trước khi thực hiện bất kỳ hành động vận hành nào."
             if parameter == "river_ec_us_cm":
                 recommendation += " EC là độ dẫn điện; không coi đây là bằng chứng xâm nhập mặn nếu không có xác nhận độc lập."
+            type_map = {
+                "missing_data": "Dữ liệu bị thiếu",
+                "sensor_anomaly_candidate": "Nghi ngờ lỗi cảm biến",
+                "process_or_environmental_anomaly_candidate": "Nghi ngờ thay đổi quy trình/môi trường",
+                "statistical_outlier": "Bất thường thống kê"
+            }
+            display_type = type_map.get(anomaly_type, anomaly_type)
             alerts.append(Alert(
                 timestamp=anomaly["timestamp"], location=anomaly["location"], parameter=parameter,
                 alert_type=alert_type, severity=severity, value=_value(anomaly.get("value")), forecast=None,
-                message=f"{anomaly_type}: {anomaly['explanation']}", recommendation=recommendation,
+                message=f"{display_type}: {anomaly.get('explanation', '')}", recommendation=recommendation,
                 status="open", acknowledged_at=None, acknowledged_by=None,
                 source_method=anomaly["detection_method"],
             ))

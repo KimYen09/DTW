@@ -3,7 +3,7 @@
 ## Data scope
 
 - Nguồn phân tích: `data/processed/water_plant_cleaned_hourly.csv`.
-- Số bản ghi clean: 2160.
+- Số bản ghi clean: 48.
 - Dataset này là **SYNTHETIC / SIMULATED — NOT FACTORY DATA**.
 - Timestamp được phân tích ở timezone `Asia/Ho_Chi_Minh (+07:00)`.
 
@@ -11,9 +11,9 @@
 
 | Variable | Non-missing | Missing | Mean | Min | Max | Latest |
 |---|---:|---:|---:|---:|---:|---:|
-| River EC (µS/cm) | 2148 | 12 | 256.0596 | 216.039 | 980.0 | 243.587 |
-| Raw-water turbidity (NTU) | 2150 | 10 | 23.5323 | 7.981 | 48.892 | 26.411 |
-| Storage pH | 2160 | 0 | 7.1505 | 6.969 | 7.315 | 7.242 |
+| River EC (µS/cm) | 48 | 0 | 616.2188 | 451.6 | 1237.2 | 644.4 |
+| Raw-water turbidity (NTU) | 48 | 0 | 2.679 | 0.65 | 4.49 | 4.49 |
+| Storage pH | 48 | 0 | 7.2177 | 6.8 | 7.59 | 7.47 |
 
 ## Process analysis boundary
 

@@ -1,6 +1,6 @@
 stage_order,location,parameter,non_missing_count,mean_ntu,median_ntu,latest_value_ntu,removal_efficiency_status,interpretation_limit
-1,raw_water_pond,raw_water_turbidity_ntu,2150,23.5323,23.7005,26.411,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
-2,settling_basin,settling_turbidity_ntu,2160,8.3669,8.4295,11.288,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
-3,filter_basin,filter_basin_turbidity_ntu,2160,1.3733,1.3775,1.746,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
-4,storage_tank,storage_turbidity_ntu,2160,0.985,0.982,1.273,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
-5,secondary_pump_station,secondary_turbidity_ntu,2160,0.9844,0.988,1.3,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
+1,raw_water_pond,raw_water_turbidity_ntu,48,2.679,2.575,4.49,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
+2,settling_basin,settling_turbidity_ntu,48,2.2985,2.14,4.46,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
+3,filter_basin,filter_basin_turbidity_ntu,48,2.2785,2.2,1.48,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
+4,storage_tank,storage_turbidity_ntu,48,2.4544,2.38,4.24,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.
+5,secondary_pump_station,secondary_turbidity_ntu,48,2.3073,2.295,3.39,NOT_CALCULATED,Process travel time and sampling alignment are not factory-confirmed; same-hour statistics are not input/output removal pairs.

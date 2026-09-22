@@ -156,7 +156,7 @@ class RiverEcForecaster:
             if not reader.fieldnames or not {"timestamp", TARGET, "river_level_m", "qnt_m3_h"}.issubset(reader.fieldnames):
                 raise ValueError("Input must include timestamp, river_ec_us_cm, river_level_m and qnt_m3_h.")
             rows = list(reader)
-        if any(datetime.fromisoformat(row["timestamp"]) > datetime.fromisoformat(next_row["timestamp"]) for row, next_row in zip(rows, rows[1:])):
+        if any(datetime.fromisoformat(row.get("timestamp", "")) > datetime.fromisoformat(next_row.get("timestamp", "")) for row, next_row in zip(rows, rows[1:]) if row.get("timestamp") and next_row.get("timestamp")):
             raise ValueError("Input must be sorted chronologically before forecasting.")
         return rows
 
@@ -167,7 +167,7 @@ class RiverEcForecaster:
         }
 
     def _build_samples(self, rows: list[dict[str, str]], horizon: int) -> list[ForecastSample]:
-        target_values = [_value(row[TARGET]) for row in rows]
+        target_values = [_value(row.get(TARGET)) for row in rows]
         samples = []
         required_lag = 24
         for origin_index in range(required_lag, len(rows) - horizon):
@@ -254,7 +254,7 @@ class RiverEcForecaster:
         # Construct features from the final observed origin only; no synthetic
         # future rows are created for operational forecasting.
         origin_index = len(rows) - 1
-        target_values = [_value(row[TARGET]) for row in rows]
+        target_values = [_value(row.get(TARGET)) for row in rows]
         history = target_values
         if origin_index < 24 or any(history[origin_index - lag] is None for lag in (0, 1, 2, 3, 6, 12, 24)):
             raise ValueError("Latest record lacks required EC history for next-6-hour forecast.")
