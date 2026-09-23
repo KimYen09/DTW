@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { 
   ViewMode, 
   TelemetryMetric, 
@@ -7,13 +7,18 @@ import {
   AlertLogItem 
 } from '../types';
 import { 
-  Home, 
-  Gauge, 
-  BellRing, 
-  Settings,
+  Search,
   ArrowLeft,
   Activity,
-  Droplet
+  Droplet,
+  Waves,
+  Gauge,
+  ShieldAlert,
+  TrendingUp,
+  BellRing,
+  ChevronRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface MobileDashboardProps {
@@ -36,153 +41,155 @@ export function MobileDashboard({
   onToggleDarkMode,
   onRefreshData
 }: MobileDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'home' | 'pumps' | 'alerts' | 'settings'>('home');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const renderHomeTab = () => (
-    <div className="space-y-4 p-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Tổng quan</h2>
-        <button onClick={onRefreshData} className="rounded-full bg-slate-200 dark:bg-slate-800 p-2 text-slate-600 dark:text-slate-300">
-          <Activity className="h-5 w-5" />
-        </button>
-      </div>
-      
-      <div className="grid grid-cols-2 gap-3">
-        {metrics.slice(0, 4).map(m => (
-          <div key={m.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
-            <div className="text-sm font-medium text-slate-500 dark:text-slate-400">{m.name}</div>
-            <div className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
-              {m.value} <span className="text-sm text-slate-500">{m.unit}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  // Danh sách công cụ được tối giản lại dựa trên AllInOneToolPortal
+  const tools = useMemo(() => [
+    {
+      id: 'overview' as ViewMode,
+      title: 'Tổng Quan SCADA',
+      desc: 'Giám sát 6 chỉ số trọng yếu và trạng thái tổ máy bơm',
+      icon: Activity,
+      color: 'from-cyan-500 to-blue-600',
+      badge: 'Trung tâm',
+      badgeColor: 'bg-cyan-500/10 text-cyan-600 border-cyan-500/20'
+    },
+    {
+      id: 'water_quality' as ViewMode,
+      title: 'Chất Lượng Nước',
+      desc: 'Quan trắc thông số lý hóa, kiểm tra chuẩn QCVN 01-1',
+      icon: Droplet,
+      color: 'from-teal-500 to-emerald-600',
+      badge: 'QCVN',
+      badgeColor: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
+    },
+    {
+      id: 'river_monitoring' as ViewMode,
+      title: 'Giám Sát Sông Tiền',
+      desc: 'Theo dõi cao trình triều cường và độ mặn EC',
+      icon: Waves,
+      color: 'from-blue-500 to-indigo-600',
+      badge: 'Chống Hạn Mặn',
+      badgeColor: 'bg-blue-500/10 text-blue-600 border-blue-500/20'
+    },
+    {
+      id: 'pump_monitoring' as ViewMode,
+      title: 'Quản Trị Trạm Bơm',
+      desc: 'Phân tích điện năng tiêu thụ, dòng, áp suất VFD',
+      icon: Gauge,
+      color: 'from-fuchsia-500 to-purple-600',
+      badge: 'Hiệu suất',
+      badgeColor: 'bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-500/20'
+    },
+    {
+      id: 'anomaly_detection' as ViewMode,
+      title: 'Phát Hiện Bất Thường AI',
+      desc: 'Hệ thống AI tự động phân tích và cảnh báo rủi ro',
+      icon: ShieldAlert,
+      color: 'from-orange-500 to-red-600',
+      badge: 'Isolation Forest',
+      badgeColor: 'bg-orange-500/10 text-orange-600 border-orange-500/20'
+    },
+    {
+      id: 'forecast' as ViewMode,
+      title: 'Dự Báo & Mô Phỏng',
+      desc: 'Dự đoán thông số 1h - 24h tới với AI',
+      icon: TrendingUp,
+      color: 'from-violet-500 to-purple-600',
+      badge: 'Random Forest',
+      badgeColor: 'bg-violet-500/10 text-violet-600 border-violet-500/20'
+    },
+    {
+      id: 'alert_log' as ViewMode,
+      title: 'Nhật Ký Cảnh Báo',
+      desc: 'Quản lý, xác nhận sự cố và xuất báo cáo CSV',
+      icon: BellRing,
+      color: 'from-rose-500 to-pink-600',
+      badge: 'Audit Log',
+      badgeColor: 'bg-rose-500/10 text-rose-600 border-rose-500/20'
+    }
+  ], []);
 
-  const renderPumpsTab = () => (
-    <div className="space-y-4 p-4">
-      <h2 className="text-xl font-bold text-slate-900 dark:text-white">Trạm Bơm</h2>
-      <div className="flex flex-col gap-3">
-        {pumps.map(p => (
-          <div key={p.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-slate-800 dark:text-white">{p.name}</span>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${p.status === 'running' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400'}`}>
-                {p.statusText}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-sm text-slate-600 dark:text-slate-400">
-              <div>Tần số: {p.frequency} Hz</div>
-              <div>Dòng: {p.current} A</div>
-              <div>Nhiệt độ: {p.temp} °C</div>
-              <div>CS: {p.power} kW</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderAlertsTab = () => (
-    <div className="space-y-4 p-4">
-      <h2 className="text-xl font-bold text-slate-900 dark:text-white">Cảnh Báo</h2>
-      <div className="flex flex-col gap-3">
-        {alerts.slice(0, 5).map(a => (
-          <div key={a.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
-            <div className="flex justify-between items-center mb-1">
-              <span className={`text-xs font-bold ${a.severity === 'CRITICAL' ? 'text-rose-500' : 'text-amber-500'}`}>{a.severity}</span>
-              <span className="text-xs text-slate-500">{new Date(a.timestamp).toLocaleTimeString()}</span>
-            </div>
-            <div className="font-medium text-slate-800 dark:text-slate-200">{a.message}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderSettingsTab = () => (
-    <div className="space-y-4 p-4">
-      <h2 className="text-xl font-bold text-slate-900 dark:text-white">Cài Đặt</h2>
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
-        <button 
-          onClick={onToggleDarkMode}
-          className="w-full flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-        >
-          <span className="text-slate-800 dark:text-slate-200 font-medium">Chế độ tối (Dark Mode)</span>
-          <div className={`w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-indigo-500' : 'bg-slate-300'} relative`}>
-            <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${darkMode ? 'left-7' : 'left-1'}`} />
-          </div>
-        </button>
-        <button 
-          onClick={() => onSelectView('intro')}
-          className="w-full flex items-center gap-3 p-4 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-medium">Về trang giới thiệu</span>
-        </button>
-      </div>
-    </div>
+  const filteredTools = tools.filter(t => 
+    t.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    t.desc.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden">
-      {/* Top Header */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 pt-6 flex items-center justify-between sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-teal-500 flex items-center justify-center">
-            <Droplet className="h-5 w-5 text-white" />
+    <div className={`flex flex-col h-screen ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'} overflow-hidden`}>
+      {/* Header */}
+      <div className={`flex items-center justify-between p-4 pt-6 border-b ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} sticky top-0 z-20`}>
+        <div className="flex items-center gap-3">
+          <button onClick={() => onSelectView('intro')} className={`p-2 rounded-full ${darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg tracking-tight">DTW Tool Hub</span>
+            <span className={`text-[10px] font-semibold ${darkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>Tất Cả Trong Một</span>
           </div>
-          <span className="font-bold text-lg text-slate-900 dark:text-white tracking-tight">DTW Mobile</span>
         </div>
-        <button onClick={() => onSelectView('intro')} className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
-          <ArrowLeft className="w-5 h-5" />
+        <button onClick={onToggleDarkMode} className={`p-2 rounded-full ${darkMode ? 'bg-slate-800 text-amber-400' : 'bg-slate-100 text-slate-600'}`}>
+          {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto pb-24">
-        {activeTab === 'home' && renderHomeTab()}
-        {activeTab === 'pumps' && renderPumpsTab()}
-        {activeTab === 'alerts' && renderAlertsTab()}
-        {activeTab === 'settings' && renderSettingsTab()}
-      </div>
+      {/* Main Area */}
+      <div className="flex-1 overflow-y-auto px-4 py-5 pb-10 relative">
+        {/* Search */}
+        <div className="mb-6 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <input 
+            type="text" 
+            placeholder="Tìm kiếm công cụ..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={`w-full py-3 pl-10 pr-4 rounded-xl border outline-none font-medium text-sm transition-all ${
+              darkMode 
+                ? 'bg-slate-900 border-slate-800 focus:border-cyan-500 placeholder-slate-500' 
+                : 'bg-white border-slate-200 focus:border-cyan-500 placeholder-slate-400 shadow-sm'
+            }`}
+          />
+        </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex items-center justify-between z-20 pb-safe">
-        <button 
-          onClick={() => setActiveTab('home')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'home' ? 'text-teal-600 dark:text-teal-400' : 'text-slate-500 dark:text-slate-400'}`}
-        >
-          <Home className={`w-6 h-6 ${activeTab === 'home' ? 'fill-teal-100 dark:fill-teal-900/50' : ''}`} />
-          <span className="text-[10px] font-medium">Tổng quan</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('pumps')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'pumps' ? 'text-teal-600 dark:text-teal-400' : 'text-slate-500 dark:text-slate-400'}`}
-        >
-          <Gauge className={`w-6 h-6 ${activeTab === 'pumps' ? 'fill-teal-100 dark:fill-teal-900/50' : ''}`} />
-          <span className="text-[10px] font-medium">Trạm bơm</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('alerts')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'alerts' ? 'text-teal-600 dark:text-teal-400' : 'text-slate-500 dark:text-slate-400'}`}
-        >
-          <div className="relative">
-            <BellRing className={`w-6 h-6 ${activeTab === 'alerts' ? 'fill-teal-100 dark:fill-teal-900/50' : ''}`} />
-            {alerts.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white dark:border-slate-900"></span>
-            )}
-          </div>
-          <span className="text-[10px] font-medium">Cảnh báo</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('settings')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'settings' ? 'text-teal-600 dark:text-teal-400' : 'text-slate-500 dark:text-slate-400'}`}
-        >
-          <Settings className={`w-6 h-6 ${activeTab === 'settings' ? 'fill-teal-100 dark:fill-teal-900/50' : ''}`} />
-          <span className="text-[10px] font-medium">Cài đặt</span>
-        </button>
+        {/* Tools List */}
+        <div className="flex flex-col gap-4">
+          {filteredTools.map(tool => {
+            const Icon = tool.icon;
+            return (
+              <button
+                key={tool.id}
+                onClick={() => onSelectView(tool.id)}
+                className={`text-left flex items-start gap-4 p-4 rounded-2xl border transition-all active:scale-[0.98] ${
+                  darkMode 
+                    ? 'bg-slate-900 border-slate-800' 
+                    : 'bg-white border-slate-200 shadow-sm'
+                }`}
+              >
+                <div className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-tr ${tool.color} text-white shadow-md`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-sm truncate">{tool.title}</span>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <span className={`inline-block mb-1 px-2 py-0.5 rounded text-[9px] font-bold self-start border ${tool.badgeColor}`}>
+                    {tool.badge}
+                  </span>
+                  <p className={`text-xs line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                    {tool.desc}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
+          
+          {filteredTools.length === 0 && (
+            <div className="text-center py-10 text-slate-500 text-sm">
+              Không tìm thấy công cụ nào phù hợp
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { MobileDashboard } from './components/MobileDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('intro');
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
   const [metrics, setMetrics] = useState<TelemetryMetric[]>(initialTelemetryMetrics);
   const [pumps, setPumps] = useState<PumpData[]>(initialPumps);
   const [alerts, setAlerts] = useState<AlertLogItem[]>(alertLogData);
@@ -134,11 +135,27 @@ export default function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleSelectView = (view: ViewMode) => {
+    // Tự động điều hướng: Nếu người dùng ở trang intro bấm vào "Tổng quan" trên điện thoại
+    // thì sẽ tự động chuyển vào Tool Hub (mobile_dashboard) thay vì bảng SCADA máy tính
+    if (isMobile && view === 'overview' && currentView === 'intro') {
+      setCurrentView('mobile_dashboard');
+    } else {
+      setCurrentView(view);
+    }
+  };
+
   return (
     <div className={`w-full min-h-screen font-sans ${darkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800'}`}>
       {currentView === 'intro' ? (
         <CompanyIntro 
-          onSelectView={setCurrentView} 
+          onSelectView={handleSelectView} 
           darkMode={darkMode}
           onToggleDarkMode={() => setDarkMode(!darkMode)}
         />
@@ -156,7 +173,7 @@ export default function App() {
       ) : (
         <ScadaDashboard
           currentView={currentView}
-          onSelectView={setCurrentView}
+          onSelectView={handleSelectView}
           metrics={metrics}
           pumps={pumps}
           anomalies={anomalyRecordsData}
