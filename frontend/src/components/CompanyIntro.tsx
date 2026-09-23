@@ -1,16 +1,16 @@
 import { WaterRippleCanvas } from './WaterRippleCanvas';
 import { ViewMode } from '../types';
-import { 
-  Activity, 
-  Droplet, 
-  Waves, 
-  Gauge, 
-  ShieldAlert, 
-  TrendingUp, 
-  BellRing, 
-  ArrowRight, 
-  CheckCircle2, 
-  Sparkles, 
+import {
+  Activity,
+  Droplet,
+  Waves,
+  Gauge,
+  ShieldAlert,
+  TrendingUp,
+  BellRing,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
   ChevronRight,
   Zap,
   Building2,
@@ -181,16 +181,16 @@ export function CompanyIntro({ onSelectView, darkMode, onToggleDarkMode }: Compa
           </div>
 
           <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl leading-tight">
-            Đồng tâm - Hợp lực - Toả sáng, <br className="hidden sm:inline" />
+            Đồng Tâm - Hợp lực - Toả sáng, <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 dark:from-cyan-400 dark:via-teal-400 dark:to-blue-500 bg-clip-text text-transparent">
               chúng ta cùng hành động vì một DTW phát triển & yêu thương
             </span>
           </h1>
 
           <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
-            Công ty Cổ phần Nhà máy Nước Đồng Tâm quản lý và vận hành trạm cấp nước chiến lược, 
-            khai thác nguồn nước mặt Sông Tiền với quy trình xử lý hiện đại, đạt quy chuẩn 
-            <strong className="font-semibold text-slate-800 dark:text-slate-200"> QCVN 01-1:2018/BYT</strong>. 
+            Công ty Cổ phần Nhà máy Nước Đồng Tâm quản lý và vận hành trạm cấp nước chiến lược,
+            khai thác nguồn nước mặt Sông Tiền với quy trình xử lý hiện đại, đạt quy chuẩn
+            <strong className="font-semibold text-slate-800 dark:text-slate-200"> QCVN 01-1:2018/BYT</strong>.
             Hệ thống tích hợp giám sát tự động SCADA, AI phát hiện dị biệt và dự báo xâm nhập mặn 24/7.
           </p>
 
@@ -371,14 +371,14 @@ export function CompanyIntro({ onSelectView, darkMode, onToggleDarkMode }: Compa
               </p>
             </div>
             <div className="flex items-center gap-4 text-xs">
-              <button 
+              <button
                 onClick={() => onSelectView('overview')}
                 className="font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
               >
                 Vào Bảng điều khiển
               </button>
               <span>•</span>
-              <button 
+              <button
                 onClick={() => onSelectView('alert_log')}
                 className="font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
               >
