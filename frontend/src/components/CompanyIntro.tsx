@@ -182,8 +182,8 @@ export function CompanyIntro({ onSelectView, darkMode, onToggleDarkMode }: Compa
 
           <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl leading-tight">
             Đồng Tâm - Hợp lực - Toả sáng, <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 dark:from-cyan-400 dark:via-teal-400 dark:to-blue-500 bg-clip-text text-transparent">
-              chúng ta cùng hành động vì một DTW phát triển & <span className="whitespace-nowrap">yêu thương</span>
+            <span className="inline-block whitespace-nowrap bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 dark:from-cyan-400 dark:via-teal-400 dark:to-blue-500 bg-clip-text text-transparent">
+              chúng ta cùng hành động vì một DTW phát triển & yêu thương
             </span>
           </h1>
 
