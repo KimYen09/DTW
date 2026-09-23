@@ -18,7 +18,8 @@ import {
   Compass,
   Cpu,
   Sun,
-  Moon
+  Moon,
+  Smartphone
 } from 'lucide-react';
 
 interface CompanyIntroProps {
@@ -211,6 +212,13 @@ export function CompanyIntro({ onSelectView, darkMode, onToggleDarkMode }: Compa
               <Compass className="h-4 w-4 text-slate-500 dark:text-slate-400" />
               <span>Xem Từng Phân Hệ Chức Năng</span>
             </a>
+            <button
+              onClick={() => onSelectView('mobile_dashboard')}
+              className="inline-flex items-center gap-2 rounded-xl border-2 border-teal-500 dark:border-teal-600 bg-teal-50/50 dark:bg-teal-900/30 px-5 py-3 text-sm font-bold text-teal-700 dark:text-teal-400 shadow-sm transition-all duration-200 hover:bg-teal-100/50 dark:hover:bg-teal-800/50 active:scale-95"
+            >
+              <Smartphone className="h-4 w-4" />
+              <span>Trải nghiệm Giao diện Điện thoại</span>
+            </button>
           </div>
 
           {/* Key Plant Metrics Ribbon */}

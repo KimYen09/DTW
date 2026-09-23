@@ -6,7 +6,8 @@ export type ViewMode =
   | 'pump_monitoring'
   | 'anomaly_detection'
   | 'forecast'
-  | 'alert_log';
+  | 'alert_log'
+  | 'mobile_dashboard';
 
 export interface TelemetryMetric {
   id: string;

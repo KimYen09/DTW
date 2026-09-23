@@ -8,6 +8,7 @@ import {
 } from './data/mockScadaData';
 import { CompanyIntro } from './components/CompanyIntro';
 import { ScadaDashboard } from './components/ScadaDashboard';
+import { MobileDashboard } from './components/MobileDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('intro');
@@ -140,6 +141,17 @@ export default function App() {
           onSelectView={setCurrentView} 
           darkMode={darkMode}
           onToggleDarkMode={() => setDarkMode(!darkMode)}
+        />
+      ) : currentView === 'mobile_dashboard' ? (
+        <MobileDashboard
+          onSelectView={setCurrentView}
+          metrics={metrics}
+          pumps={pumps}
+          anomalies={anomalyRecordsData}
+          alerts={alerts}
+          darkMode={darkMode}
+          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          onRefreshData={fetchData}
         />
       ) : (
         <ScadaDashboard
