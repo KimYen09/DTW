@@ -367,7 +367,7 @@ export function CompanyIntro({ onSelectView, darkMode, onToggleDarkMode }: Compa
             <div className="text-left">
               <span className="font-bold text-slate-700 dark:text-slate-300">Công ty Cổ phần Nhà máy Nước Đồng Tâm (Dong Tam Water Corp)</span>
               <p className="mt-0.5 text-slate-500 dark:text-slate-400">
-                Trụ sở: Ấp Tân Thuận, Xã Bình Đức, Huyện Châu Thành, Tỉnh Tiền Giang | MST: 1200648505
+                Trụ sở: Ấp Tân Thuận, Xã Kim Sơn, Huyện Châu Thành, Tỉnh Tiền Giang | MST: 1200648505
               </p>
             </div>
             <div className="flex items-center gap-4 text-xs">
